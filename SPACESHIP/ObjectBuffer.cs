@@ -1,4 +1,4 @@
-namespace SPACESHIP.Generics;
+namespace HIGHWAYS.Generics;
 
 public class ObjectBuffer<T> where T : class
 {

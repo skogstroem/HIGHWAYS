@@ -1,6 +1,6 @@
-using SPACESHIP.Interfaces;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.Rendering;
+namespace HIGHWAYS.Rendering;
 
 public class AsciiRenderer : IRenderable
 {

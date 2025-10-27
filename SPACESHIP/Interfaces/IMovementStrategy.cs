@@ -1,6 +1,6 @@
-using SPACESHIP.GameObjects;
+using HIGHWAYS.GameObjects;
 
-namespace SPACESHIP.Interfaces;
+namespace HIGHWAYS.Interfaces;
 public interface IMovementStrategy
 {
     int DecideNextLane(int currentLane, IEnumerable<Lane> lanes, int maxLanes);

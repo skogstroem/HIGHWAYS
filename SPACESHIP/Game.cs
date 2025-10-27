@@ -1,9 +1,9 @@
-using SPACESHIP.GameObjects;
-using SPACESHIP.Players;
-using SPACESHIP.Generics;
-using SPACESHIP.Interfaces;
+using HIGHWAYS.GameObjects;
+using HIGHWAYS.Players;
+using HIGHWAYS.Generics;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.Core;
+namespace HIGHWAYS.Core;
 
 public class Game
 {

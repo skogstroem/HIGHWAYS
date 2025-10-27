@@ -1,7 +1,7 @@
 using System.Collections;
-using SPACESHIP.Generics;
+using HIGHWAYS.Generics;
 
-namespace SPACESHIP.GameObjects;
+namespace HIGHWAYS.GameObjects;
 public class Lane : IEnumerable<GameObject>
 {
     private readonly ObjectBuffer<GameObject> _objects;

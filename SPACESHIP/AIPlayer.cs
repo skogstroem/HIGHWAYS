@@ -1,7 +1,7 @@
-using SPACESHIP.GameObjects;
-using SPACESHIP.Interfaces;
+using HIGHWAYS.GameObjects;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.Players;
+namespace HIGHWAYS.Players;
 
 public class AIPlayer : IPlayer
 {
