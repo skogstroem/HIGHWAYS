@@ -10,6 +10,8 @@ namespace HIGHWAYS;
 /// <summary>
 /// Huvudprogram - Demonstrerar användning av alla OOP2-koncept:
 /// 
+namespace SPACESHIP;
+//TEST
 /// 1. GENERICS - ObjectBuffer<T> (ObjectBuffer.cs)
 ///    - Används med olika typ-argument: ObjectBuffer<GameObject> (Lane.cs rad 7, 15) och ObjectBuffer<string> (Game.cs rad 24, 32)
 ///    - Constraint: where T : class
@@ -58,10 +60,10 @@ class Program
 
             Console.WriteLine("Undvik hindren och plocka powerups! Blå= Dubbla score. Grön= Extra HP!");
             Console.WriteLine("\nVälj gamemode:");
-            Console.WriteLine("1. Solo ");
+            Console.WriteLine("\n1. Solo ");
             Console.WriteLine("2. Mot Bot ");
             Console.WriteLine("3. Avsluta");
-            Console.Write("\nVal (1-3): ");
+            Console.Write("\nVälj (1-3): ");
             
             var choice = Console.ReadKey(true).KeyChar;
             Console.WriteLine();
@@ -77,7 +79,7 @@ class Program
             if (choice == '2')
             {
                 Console.WriteLine("\nVälj bot-strategy:");
-                Console.WriteLine("1. ZigZag (svår)");
+                Console.WriteLine("\n1. ZigZag (svår)");
                 Console.WriteLine("2. Straight (lätt)");
                 Console.Write("\nVal (1-2): ");
                 
@@ -96,10 +98,10 @@ class Program
                 Console.WriteLine("SOLOMODE!");
             }
 
-            Console.WriteLine("\nTryck på valfri tangent för att starta...");
+            Console.WriteLine("\nTryck på valfri tangent för att starta spelet...");
             Console.ReadKey(true);
 
-            // Skapar och injicerar fabriker via dependency injection istället för hårdkodning
+            // skapar och injicerar fabriker via dependency injection istället för hårdkodning
             var obstacleFactory = new ObstacleFactory();
             var healthPowerupFactory = new PowerupFactory(PowerupType.Health);
             var scorePowerupFactory = new PowerupFactory(PowerupType.Score);

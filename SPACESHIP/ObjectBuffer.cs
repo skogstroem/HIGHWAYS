@@ -12,7 +12,7 @@ public class ObjectBuffer<T> where T : class
     public ObjectBuffer(int capacity)
     {
         if (capacity <= 0)
-            throw new ArgumentException("Kapacitet måste vara större än 0", nameof(capacity));
+            throw new ArgumentException("Kapacitet lär ju vara större än 0", nameof(capacity));
 
         _buffer = new T[capacity];
         _writeIndex = 0;

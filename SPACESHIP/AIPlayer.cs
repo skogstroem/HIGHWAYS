@@ -63,7 +63,7 @@ public class AIPlayer : IPlayer
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.SetCursorPosition(GetXPosition(), yPosition);
-        Console.Write("▼");
+        Console.Write("▲");
         Console.ResetColor();
     }
     private int GetXPosition()

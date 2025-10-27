@@ -7,7 +7,7 @@ public class GameLoop
     private readonly Game _game;
     private readonly Stopwatch _stopwatch;
     private bool _isRunning;
-    private const int TargetFPS = 10;
+    private const int TargetFPS = 15;
     private const double TargetFrameTime = 1000.0 / TargetFPS;
 
     public double DeltaTime { get; private set; }
