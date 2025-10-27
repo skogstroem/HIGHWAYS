@@ -1,6 +1,6 @@
-using SPACESHIP.Interfaces;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.GameObjects;
+namespace HIGHWAYS.GameObjects;
 public abstract class GameObject
 {
     public int X { get; set; }

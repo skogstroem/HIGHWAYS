@@ -1,6 +1,6 @@
-using SPACESHIP.Interfaces;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.GameObjects;
+namespace HIGHWAYS.GameObjects;
 public class Powerup : GameObject
 {
     public PowerupType Type { get; }

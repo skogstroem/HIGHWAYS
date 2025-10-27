@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace SPACESHIP.Core;
+namespace HIGHWAYS.Core;
 
 public class GameLoop
 {

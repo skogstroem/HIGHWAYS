@@ -1,6 +1,6 @@
-using SPACESHIP.GameObjects;
+using HIGHWAYS.GameObjects;
 
-namespace SPACESHIP.Interfaces;
+namespace HIGHWAYS.Interfaces;
 public interface IGameObjectFactory
 {
     GameObject CreateGameObject(int x, int y);

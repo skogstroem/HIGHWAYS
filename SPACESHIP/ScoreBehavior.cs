@@ -1,6 +1,6 @@
-using SPACESHIP.Interfaces;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.Behaviors;
+namespace HIGHWAYS.Behaviors;
 
 public class ScoreBehavior : IBehavior
 {

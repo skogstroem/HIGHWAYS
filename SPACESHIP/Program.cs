@@ -1,10 +1,15 @@
-﻿using SPACESHIP.Core;
-using SPACESHIP.Movement;
-using SPACESHIP.Players;
-using SPACESHIP.Factories;
-using SPACESHIP.GameObjects;
-using SPACESHIP.Interfaces;
+﻿using HIGHWAYS.Core;
+using HIGHWAYS.Movement;
+using HIGHWAYS.Players;
+using HIGHWAYS.Factories;
+using HIGHWAYS.GameObjects;
+using HIGHWAYS.Interfaces;
 
+namespace HIGHWAYS;
+
+/// <summary>
+/// Huvudprogram - Demonstrerar användning av alla OOP2-koncept:
+/// 
 namespace SPACESHIP;
 //TEST
 /// 1. GENERICS - ObjectBuffer<T> (ObjectBuffer.cs)

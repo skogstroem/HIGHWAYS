@@ -1,4 +1,4 @@
-namespace SPACESHIP.Interfaces;
+namespace HIGHWAYS.Interfaces;
 
 public interface IPlayer
 {

@@ -1,6 +1,6 @@
-using SPACESHIP.Interfaces;
+using HIGHWAYS.Interfaces;
 
-namespace SPACESHIP.Players;
+namespace HIGHWAYS.Players;
 
 public class HumanPlayer : IPlayer
 {

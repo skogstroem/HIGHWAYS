@@ -1,9 +1,9 @@
-using SPACESHIP.Behaviors;
-using SPACESHIP.GameObjects;
-using SPACESHIP.Interfaces;
-using SPACESHIP.Rendering;
+using HIGHWAYS.Behaviors;
+using HIGHWAYS.GameObjects;
+using HIGHWAYS.Interfaces;
+using HIGHWAYS.Rendering;
 
-namespace SPACESHIP.Factories;
+namespace HIGHWAYS.Factories;
 public class ObstacleFactory : IGameObjectFactory
 {
     private readonly Random _random = new();
