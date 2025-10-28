@@ -18,8 +18,7 @@ public class Game
     private readonly HumanPlayer _humanPlayer;
     private readonly AIPlayer? _aiPlayer;
     private readonly IGameObjectFactory _obstacleFactory;
-    private readonly IGameObjectFactory _healthPowerupFactory;
-    private readonly IGameObjectFactory _scorePowerupFactory;
+    private readonly IGameObjectFactory _powerupFactory;
     private readonly Random _random;
     private readonly ObjectBuffer<string> _messageEvents;
     private int _rowCounter;
@@ -28,14 +27,12 @@ public class Game
     public Game(HumanPlayer humanPlayer, 
                 AIPlayer? aiPlayer,
                 IGameObjectFactory obstacleFactory,
-                IGameObjectFactory healthPowerupFactory,
-                IGameObjectFactory scorePowerupFactory)
+                IGameObjectFactory powerupFactory)
     {
         _humanPlayer = humanPlayer ?? throw new ArgumentNullException(nameof(humanPlayer));
         _aiPlayer = aiPlayer;
         _obstacleFactory = obstacleFactory ?? throw new ArgumentNullException(nameof(obstacleFactory));
-        _healthPowerupFactory = healthPowerupFactory ?? throw new ArgumentNullException(nameof(healthPowerupFactory));
-        _scorePowerupFactory = scorePowerupFactory ?? throw new ArgumentNullException(nameof(scorePowerupFactory));
+        _powerupFactory = powerupFactory ?? throw new ArgumentNullException(nameof(powerupFactory));
         _messageEvents = new ObjectBuffer<string>(10);
 
         _playerLanes = new List<Lane>();
@@ -99,8 +96,7 @@ public class Game
     {
         var availableLanes = Enumerable.Range(0, NumLanes).ToList();
         var selectedObstacleLanes = new List<int>();
-        int? healthPowerupLane = null;
-        int? scorePowerupLane = null;
+        int? powerupLane = null;
         
         for (int i = 0; i < 2 && availableLanes.Count > 0; i++)
         {
@@ -110,17 +106,10 @@ public class Game
             selectedObstacleLanes.Add(laneIndex);
         }
         
-        if (_random.Next(0, 100) < 20 && availableLanes.Count > 0)
+        if (_random.Next(0, 100) < 25 && availableLanes.Count > 0)
         {
             int laneIndexPosition = _random.Next(availableLanes.Count);
-            healthPowerupLane = availableLanes[laneIndexPosition];
-            availableLanes.RemoveAt(laneIndexPosition);
-        }
-        
-        if (_random.Next(0, 100) < 5 && availableLanes.Count > 0)
-        {
-            int laneIndexPosition = _random.Next(availableLanes.Count);
-            scorePowerupLane = availableLanes[laneIndexPosition];
+            powerupLane = availableLanes[laneIndexPosition];
         }
 
         foreach (var laneIndex in selectedObstacleLanes)
@@ -130,17 +119,10 @@ public class Game
             lane.AddObject(obj);
         }
         
-        if (healthPowerupLane.HasValue)
+        if (powerupLane.HasValue)
         {
-            var lane = _playerLanes[healthPowerupLane.Value];
-            var powerup = _healthPowerupFactory.CreateGameObject(lane.XPosition, 0);
-            lane.AddObject(powerup);
-        }
-        
-        if (scorePowerupLane.HasValue)
-        {
-            var lane = _playerLanes[scorePowerupLane.Value];
-            var powerup = _scorePowerupFactory.CreateGameObject(lane.XPosition, 0);
+            var lane = _playerLanes[powerupLane.Value];
+            var powerup = _powerupFactory.CreateGameObject(lane.XPosition, 0);
             lane.AddObject(powerup);
         }
 
@@ -153,17 +135,10 @@ public class Game
                 lane.AddObject(obj);
             }
             
-            if (healthPowerupLane.HasValue)
+            if (powerupLane.HasValue)
             {
-                var lane = _aiLanes[healthPowerupLane.Value];
-                var powerup = _healthPowerupFactory.CreateGameObject(lane.XPosition, 0);
-                lane.AddObject(powerup);
-            }
-            
-            if (scorePowerupLane.HasValue)
-            {
-                var lane = _aiLanes[scorePowerupLane.Value];
-                var powerup = _scorePowerupFactory.CreateGameObject(lane.XPosition, 0);
+                var lane = _aiLanes[powerupLane.Value];
+                var powerup = _powerupFactory.CreateGameObject(lane.XPosition, 0);
                 lane.AddObject(powerup);
             }
         }
@@ -182,11 +157,17 @@ public class Game
             // Logga händelser i meddelandebuffern
             if (obj is Powerup powerup)
             {
-                _messageEvents.TryAdd($"LETS GO!");
+                _messageEvents.TryAdd($"       LETS GO!");
             }
-            else if (obj is Obstacle)
+            else if (obj is Obstacle obstacle)
             {
-                _messageEvents.TryAdd("AUCH!");
+                if (obstacle.Type != ObstacleType.Bomb)
+                {
+                    _messageEvents.TryAdd("         AUCH!");
+                }
+                else
+                {
+                }
             }
             
             obj.HandleCollision(_humanPlayer);
@@ -398,18 +379,14 @@ public class Game
         Console.ForegroundColor = ConsoleColor.White;
 
         int finalScore = _humanPlayer.Score;
-        bool playerWon = false;
 
         if (_aiPlayer == null)
         {
-            // Solo-läge
             Console.WriteLine($"Slutresultat: {finalScore} poäng!");
-            playerWon = true;
         }
         else if (_humanPlayer.IsAlive)
         {
             Console.WriteLine($"{_humanPlayer.Name} VINNER! (Score: {finalScore})");
-            playerWon = true;
         }
         else if (_aiPlayer.IsAlive)
         {
