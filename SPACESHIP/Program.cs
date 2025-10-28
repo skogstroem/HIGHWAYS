@@ -10,7 +10,6 @@ namespace HIGHWAYS;
 /// <summary>
 /// Huvudprogram - Demonstrerar användning av alla OOP2-koncept:
 /// 
-namespace SPACESHIP;
 //TEST
 /// 1. GENERICS - ObjectBuffer<T> (ObjectBuffer.cs)
 ///    - Används med olika typ-argument: ObjectBuffer<GameObject> (Lane.cs rad 7, 15) och ObjectBuffer<string> (Game.cs rad 24, 32)
@@ -31,10 +30,13 @@ namespace SPACESHIP;
 ///    - Möjliggör 6 olika kombinationer utan att skapa 6 klasser
 /// 
 /// 4. FACTORY METHOD - IGameObjectFactory (IGameObjectFactory.cs)
-///    - Fabrik-hierarki: ObstacleFactory och PowerupFactory
-///    - Produkt-hierarki: Obstacle och Powerup (båda ärver GameObject)
-///    - Injiceras i Game.cs konstruktor (rad 30-32, 36-38)
-///    - Används i SpawnRow() (rad 126, 133, 140) för att kapsla komplex objektskapande
+///    - Fabrik-hierarki: ObstacleFactory och PowerupFactory (båda implementerar IGameObjectFactory)
+///    - Produkt-hierarki 1: Obstacle med ObstacleType (Debris/Bomb) - skapas av ObstacleFactory
+///    - Produkt-hierarki 2: Powerup med PowerupType (Health/Score) - skapas av PowerupFactory
+///    - Injiceras i Game.cs konstruktor (rad 30, 34-35)
+///    - Används i SpawnRow() (rad 118, 125) för att kapsla komplex objektskapande
+///    - ObstacleFactory avgör själv: 5% chans Bomb (instant game over), annars Debris (tar 1 hjärta)
+///    - PowerupFactory avgör själv: 20% chans Score powerup (dubblerar poäng), annars Health powerup (ger 1 hjärta)
 /// 
 /// 5. ITERATOR PATTERN - Lane (Lane.cs rad 5)
 ///    - Implementerar IEnumerable<GameObject>
@@ -58,7 +60,9 @@ class Program
         {
             ShowWelcomeScreen();
 
-            Console.WriteLine("Undvik hindren och plocka powerups! Blå= Dubbla score. Grön= Extra HP!");
+            Console.WriteLine("Undvik hindren och plocka powerups!");
+            Console.WriteLine("Powerups: Grön = Extra HP // Blå = Dubbla score!");
+            Console.WriteLine("Hinder: Grå = Förlora HP // Röd = Game over!");
             Console.WriteLine("\nVälj gamemode:");
             Console.WriteLine("\n1. Solo ");
             Console.WriteLine("2. Mot Bot ");
@@ -103,10 +107,9 @@ class Program
 
             // skapar och injicerar fabriker via dependency injection istället för hårdkodning
             var obstacleFactory = new ObstacleFactory();
-            var healthPowerupFactory = new PowerupFactory(PowerupType.Health);
-            var scorePowerupFactory = new PowerupFactory(PowerupType.Score);
+            var powerupFactory = new PowerupFactory();
 
-            var game = new Game(humanPlayer, aiPlayer, obstacleFactory, healthPowerupFactory, scorePowerupFactory);
+            var game = new Game(humanPlayer, aiPlayer, obstacleFactory, powerupFactory);
             var gameLoop = new GameLoop(game);
 
             gameLoop.Start();

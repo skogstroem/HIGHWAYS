@@ -10,14 +10,23 @@ public class ObstacleFactory : IGameObjectFactory
 
     public GameObject CreateGameObject(int x, int y)
     {
-        return CreateDebris(x, y);
+        return _random.Next(100) < 5 
+            ? CreateBomb(x, y) 
+            : CreateDebris(x, y);
     }
 
-    private Obstacle CreateDebris(int x, int y)
+    private static Obstacle CreateDebris(int x, int y)
     {
         var renderer = new AsciiRenderer('▓', ConsoleColor.Gray);
         var behavior = new DamageBehavior();
-        return new Obstacle(x, y, renderer, behavior);
+        return new Obstacle(x, y, renderer, behavior, ObstacleType.Debris);
+    }
+
+    private static Obstacle CreateBomb(int x, int y)
+    {
+        var renderer = new ColoredRenderer('●', ConsoleColor.Red, ConsoleColor.DarkRed);
+        var behavior = new BombBehavior();
+        return new Obstacle(x, y, renderer, behavior, ObstacleType.Bomb);
     }
 }
 
