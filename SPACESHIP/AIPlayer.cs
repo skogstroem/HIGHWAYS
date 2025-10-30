@@ -66,7 +66,7 @@ public class AIPlayer : IPlayer
         Console.Write("▲");
         Console.ResetColor();
     }
-    private int GetXPosition()
+    public int GetXPosition()
     {
         return 35 + (CurrentLane * 4);
     }

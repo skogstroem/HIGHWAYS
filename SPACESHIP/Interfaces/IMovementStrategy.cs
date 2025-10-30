@@ -1,4 +1,5 @@
 using HIGHWAYS.GameObjects;
+using HIGHWAYS.Players;
 
 namespace HIGHWAYS.Interfaces;
 public interface IMovementStrategy

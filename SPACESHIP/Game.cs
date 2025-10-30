@@ -165,9 +165,6 @@ public class Game
                 {
                     _messageEvents.TryAdd("         AUCH!");
                 }
-                else
-                {
-                }
             }
             
             _lastCollisionObject = obj;

@@ -1,5 +1,6 @@
 using HIGHWAYS.GameObjects;
 using HIGHWAYS.Interfaces;
+using HIGHWAYS.Players;
 
 namespace HIGHWAYS.Movement;
 

@@ -47,6 +47,7 @@ public class Lane : IEnumerable<GameObject>
         }
     }
 
+    // 
     public IEnumerable<GameObject> GetActiveObjects()
     {
         return _objects.GetAll().Where(obj => obj.IsActive);

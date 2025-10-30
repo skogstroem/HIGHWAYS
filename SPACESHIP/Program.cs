@@ -40,16 +40,34 @@ class Program
             if (choice == '2')
             {
                 Console.WriteLine("\nVälj bot-strategy:");
-                Console.WriteLine("\n1. ZigZag (svår)");
-                Console.WriteLine("2. Straight (lätt)");
-                Console.Write("\nVal (1-2): ");
+                Console.WriteLine("\n1. ZigZag (datorn rör sig smart)");
+                Console.WriteLine("2. Straight (datorn åker bara rakt fram)");
+                Console.WriteLine("3. Random strategy (datorn rör sig spontant)");
+                Console.Write("\nVal (1-3): ");
                 
                 var strategyChoice = Console.ReadKey(true).KeyChar;
                 Console.WriteLine();
-                
-                IMovementStrategy aiStrategy = strategyChoice == '2' 
-                    ? new StraightStrategy() 
-                    : new ZigZagStrategy();
+
+                IMovementStrategy aiStrategy;
+               
+                switch (strategyChoice)
+                {
+                    case '1':
+                        aiStrategy = new StraightStrategy();
+                        break;
+
+                    case '2':
+                        aiStrategy = new ZigZagStrategy();
+                        break;
+
+                    case '3':
+                        aiStrategy = new RandomStrategy();
+                        break;
+
+                    default:
+                        aiStrategy = new RandomStrategy(); 
+                        break;
+                }
                 
                 aiPlayer = new AIPlayer("Bot", startLane: 2, maxLanes: 5, aiStrategy);
                 Console.WriteLine("BOTMODE!");

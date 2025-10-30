@@ -32,7 +32,7 @@ public class HumanPlayer : IPlayer
 
     public void LoseHeart()
     {
-        Hearts = Math.Max(0, Hearts - 1);
+         Hearts = Math.Max(0, Hearts - 1);
     }
 
     public void GainHeart()
