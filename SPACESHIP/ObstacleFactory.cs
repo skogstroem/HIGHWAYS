@@ -18,14 +18,16 @@ public class ObstacleFactory : IGameObjectFactory
     private static Obstacle CreateDebris(int x, int y)
     {
         var renderer = new AsciiRenderer('▓', ConsoleColor.Gray);
-        var behavior = new DamageBehavior();
+        var effectRenderer = new AsciiRenderer('X', ConsoleColor.Red);
+        var behavior = new DamageBehavior(effectRenderer);
         return new Obstacle(x, y, renderer, behavior, ObstacleType.Debris);
     }
 
     private static Obstacle CreateBomb(int x, int y)
     {
         var renderer = new ColoredRenderer('●', ConsoleColor.Red, ConsoleColor.DarkRed);
-        var behavior = new BombBehavior();
+        var effectRenderer = new AsciiRenderer('*', ConsoleColor.Yellow);
+        var behavior = new BombBehavior(effectRenderer);
         return new Obstacle(x, y, renderer, behavior, ObstacleType.Bomb);
     }
 }

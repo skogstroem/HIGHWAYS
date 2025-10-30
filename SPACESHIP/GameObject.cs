@@ -37,6 +37,11 @@ public abstract class GameObject
         Behavior.OnCollision(player);
         IsActive = false;
     }
+    
+    public void RenderCollisionEffect(int uiX, int uiY)
+    {
+        Behavior.RenderEffect(uiX, uiY);
+    }
 
     public bool CollidesWith(int playerX, int playerY)
     {
