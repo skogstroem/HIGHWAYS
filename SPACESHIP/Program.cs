@@ -7,49 +7,6 @@ using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS;
 
-/// <summary>
-/// Huvudprogram - Demonstrerar användning av alla OOP2-koncept:
-/// 
-//TEST
-/// 1. GENERICS - ObjectBuffer<T> (ObjectBuffer.cs)
-///    - Används med olika typ-argument: ObjectBuffer<GameObject> (Lane.cs rad 7, 15) och ObjectBuffer<string> (Game.cs rad 24, 32)
-///    - Constraint: where T : class
-///    - Typsäker cirkulär buffer som fungerar med vilken referenstyp som helst
-/// 
-/// 2. STRATEGY PATTERN - IMovementStrategy (IMovementStrategy.cs)
-///    - Subtyper: ZigZagStrategy (sicksack-rörelse) och StraightStrategy (står stilla)
-///    - Injiceras i AIPlayer.cs konstruktor (rad 19, 24)
-///    - Används i AIPlayer.Update() (rad 63) för att bestämma AI:ns nästa lane
-///    - Användaren väljer strategi vid runtime (Program.cs rad 54-56)
-/// 
-/// 3. BRIDGE PATTERN - GameObject (GameObject.cs rad 12, 14)
-///    - Abstraktion 1: IBehavior med 3 konkretioner (DamageBehavior, HealBehavior, ScoreBehavior)
-///    - Abstraktion 2: IRenderable med 2 konkretioner (AsciiRenderer, ColoredRenderer)
-///    - GameObject komponeras av båda via konstruktor (rad 16)
-///    - Används i GameObject.Render() (rad 33) och HandleCollision() (rad 39)
-///    - Möjliggör 6 olika kombinationer utan att skapa 6 klasser
-/// 
-/// 4. FACTORY METHOD - IGameObjectFactory (IGameObjectFactory.cs)
-///    - Fabrik-hierarki: ObstacleFactory och PowerupFactory (båda implementerar IGameObjectFactory)
-///    - Produkt-hierarki 1: Obstacle med ObstacleType (Debris/Bomb) - skapas av ObstacleFactory
-///    - Produkt-hierarki 2: Powerup med PowerupType (Health/Score) - skapas av PowerupFactory
-///    - Injiceras i Game.cs konstruktor (rad 30, 34-35)
-///    - Används i SpawnRow() (rad 118, 125) för att kapsla komplex objektskapande
-///    - ObstacleFactory avgör själv: 5% chans Bomb (instant game over), annars Debris (tar 1 hjärta)
-///    - PowerupFactory avgör själv: 20% chans Score powerup (dubblerar poäng), annars Health powerup (ger 1 hjärta)
-/// 
-/// 5. ITERATOR PATTERN - Lane (Lane.cs rad 5)
-///    - Implementerar IEnumerable<GameObject>
-///    - GetEnumerator() delegerar till underliggande IEnumerable (rad 55-61)
-///    - Itereras i Game.CheckCollisions() (rad 175-177) och CleanupObjects() (rad 228)
-///    - Kapslar ObjectBuffer och filtrerar automatiskt till aktiva objekt
-/// 
-/// 6. LINQ METOD-SYNTAX (Game.cs)
-///    - CheckCollisions() (rad 175-178): .Where().Where().ToList() för kollisionsdetektion
-///    - CleanupObjects() (rad 227-239): .SelectMany().Count() och .OfType<T>() för statistik
-///    - DrawUI() (rad 364): .LastOrDefault() för att hämta senaste meddelande
-///    - Simplifierar nested loops, filtrering och typ-kontroller
-/// </summary>
 class Program
 {
     static void Main(string[] args)

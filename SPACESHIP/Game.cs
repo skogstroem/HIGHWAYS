@@ -23,6 +23,7 @@ public class Game
     private readonly ObjectBuffer<string> _messageEvents;
     private int _rowCounter;
     private const int RowsPerSpawn = 5;
+    private GameObject? _lastCollisionObject;
 
     public Game(HumanPlayer humanPlayer, 
                 AIPlayer? aiPlayer,
@@ -154,7 +155,6 @@ public class Game
 
         foreach (var obj in humanCollisions)
         {
-            // Logga händelser i meddelandebuffern
             if (obj is Powerup powerup)
             {
                 _messageEvents.TryAdd($"       LETS GO!");
@@ -170,6 +170,7 @@ public class Game
                 }
             }
             
+            _lastCollisionObject = obj;
             obj.HandleCollision(_humanPlayer);
         }
 
@@ -332,6 +333,12 @@ public class Game
         Console.ForegroundColor = ConsoleColor.Cyan;
         string hearts = string.Concat(Enumerable.Repeat("<3 ", _humanPlayer.Hearts));
         Console.Write($"👤PLAYER : {hearts} Score={_humanPlayer.Score}");
+        
+        if (_lastCollisionObject != null)
+        {
+            Console.Write("  ");
+            _lastCollisionObject.RenderCollisionEffect(Console.CursorLeft, ScreenHeight - 1);
+        }
 
         Console.SetCursorPosition(2, 0);
         Console.Write(new string(' ', ScreenWidth - 4));
