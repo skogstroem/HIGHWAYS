@@ -5,7 +5,7 @@ public class Powerup : GameObject
 {
     public PowerupType Type { get; }
 
-    public Powerup(int x, int y, IRenderable renderer, IBehavior behavior, PowerupType type)
+    public Powerup(int x, int y, IRender renderer, IBehavior behavior, PowerupType type)
         : base(x, y, renderer, behavior)
     {
         Type = type;

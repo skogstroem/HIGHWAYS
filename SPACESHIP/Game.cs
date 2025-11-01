@@ -7,55 +7,62 @@ namespace HIGHWAYS.Core;
 
 public class Game
 {
-    private const int NumLanes = 5;
-    private const int ScreenWidth = 80;
-    private const int ScreenHeight = 30;
-    private const int PlayerYPosition = ScreenHeight - 3;
-    private const int LeftPlayfieldOffset = 5;
-    private const int RightPlayfieldOffset = 42;
+    private const int NumberOfLanes = 5;
+
+    private const int GameWidth = 80;
+    private const int GameHeight = 30;
+    private const int PlayersY = 27; //Y-position för spelare används för kollisionsdet
+
+    private const int LaneOffset = 5; //startar spelplanen 5positioner till höger
+    private const int LaneOffsetAI = 42; //start för AI-planen
+
     private readonly List<Lane> _playerLanes;
     private readonly List<Lane> _aiLanes;
-    private readonly HumanPlayer _humanPlayer;
+
+    private readonly Player _humanPlayer;
     private readonly AIPlayer? _aiPlayer;
+
     private readonly IGameObjectFactory _obstacleFactory;
     private readonly IGameObjectFactory _powerupFactory;
+
     private readonly Random _random;
+
     private readonly ObjectBuffer<string> _messageEvents;
-    private int _rowCounter;
-    private const int RowsPerSpawn = 5;
     private GameObject? _lastCollisionObject;
 
-    public Game(HumanPlayer humanPlayer, 
-                AIPlayer? aiPlayer,
-                IGameObjectFactory obstacleFactory,
-                IGameObjectFactory powerupFactory)
+
+    private int _rowCounter; //räknare för spawning
+    private const int RowsPerSpawn = 5; //antal rader mellan spawn av objekt
+
+    public Game(Player humanPlayer, AIPlayer? aiPlayer,IGameObjectFactory obstacleFactory,IGameObjectFactory powerupFactory)
     {
-        _humanPlayer = humanPlayer ?? throw new ArgumentNullException(nameof(humanPlayer));
+        _humanPlayer = humanPlayer;
         _aiPlayer = aiPlayer;
-        _obstacleFactory = obstacleFactory ?? throw new ArgumentNullException(nameof(obstacleFactory));
-        _powerupFactory = powerupFactory ?? throw new ArgumentNullException(nameof(powerupFactory));
-        _messageEvents = new ObjectBuffer<string>(10);
+        _obstacleFactory = obstacleFactory;
+        _powerupFactory = powerupFactory;
+        _messageEvents = new ObjectBuffer<string>(100);
 
         _playerLanes = new List<Lane>();
-        for (int i = 0; i < NumLanes; i++)
+
+        for (int i = 0; i < NumberOfLanes; i++)
         {
-            int xPos = LeftPlayfieldOffset + (i * 4);
+            int xPos = LaneOffset + (i * 4); //skapar och lagrar alla lanes xPos för själva lane-OBJEKTEN i _playerLanes
             _playerLanes.Add(new Lane(i, xPos));
         }
 
-        
         _aiLanes = new List<Lane>();
         if (_aiPlayer != null)
         {
-            for (int i = 0; i < NumLanes; i++)
+            for (int i = 0; i < NumberOfLanes; i++)
             {
-                int xPos = RightPlayfieldOffset + (i * 4);
+                int xPos = LaneOffsetAI + (i * 4);
                 _aiLanes.Add(new Lane(i, xPos));
             }
         }
 
         _random = new Random();
         _rowCounter = 0;
+
     }
 
     public void Update()
@@ -65,7 +72,7 @@ public class Game
 
         foreach (var lane in _playerLanes)
         {
-            lane.UpdateAll();
+            lane.UpdateAll(); //uppdatera (öka Y, för) alla objekt i varje lane
         }
 
         if (_aiPlayer != null)
@@ -76,10 +83,10 @@ public class Game
             }
         }
 
-        SpawnObjects();
-        CheckCollisions();
-        CleanupObjects();
-        _humanPlayer.IncreaseScore(1);
+        SpawnObjects(); //metod som ökar rowCounter och spawnar objektrad if...
+        CheckCollisions(); //jämför spelare och objekts Y för ev kollision
+        CleanupObjects(); //tar bort inaktiva objekt och objekt utanför skärmen
+        _humanPlayer.IncreaseScore(1); //poängcounters
         _aiPlayer?.IncreaseScore(1);
     }
 
@@ -95,103 +102,103 @@ public class Game
 
     private void SpawnRow()
     {
-        var availableLanes = Enumerable.Range(0, NumLanes).ToList();
-        var selectedObstacleLanes = new List<int>();
-        int? powerupLane = null;
+        int obstacle1Lane = _random.Next(0, NumberOfLanes);
+        int obstacle2Lane = _random.Next(0, NumberOfLanes);
         
-        for (int i = 0; i < 2 && availableLanes.Count > 0; i++)
+        //säkerställer att spawn sker på olika lanes
+        while (obstacle2Lane == obstacle1Lane)
         {
-            int laneIndexPosition = _random.Next(availableLanes.Count);
-            int laneIndex = availableLanes[laneIndexPosition];
-            availableLanes.RemoveAt(laneIndexPosition);
-            selectedObstacleLanes.Add(laneIndex);
-        }
-        
-        if (_random.Next(0, 100) < 25 && availableLanes.Count > 0)
-        {
-            int laneIndexPosition = _random.Next(availableLanes.Count);
-            powerupLane = availableLanes[laneIndexPosition];
+            obstacle2Lane = _random.Next(0, NumberOfLanes);
         }
 
-        foreach (var laneIndex in selectedObstacleLanes)
-        {
-            var lane = _playerLanes[laneIndex];
-            var obj = _obstacleFactory.CreateGameObject(lane.XPosition, 0);
-            lane.AddObject(obj);
-        }
+        // skapa själva hindret i ovan randomiserade lanesen för spelaren
+        var obj1 = _obstacleFactory.CreateGameObject(_playerLanes[obstacle1Lane].XPosition, 0);
+        _playerLanes[obstacle1Lane].AddObject(obj1);
         
-        if (powerupLane.HasValue)
-        {
-            var lane = _playerLanes[powerupLane.Value];
-            var powerup = _powerupFactory.CreateGameObject(lane.XPosition, 0);
-            lane.AddObject(powerup);
-        }
+        var obj2 = _obstacleFactory.CreateGameObject(_playerLanes[obstacle2Lane].XPosition, 0);
+        _playerLanes[obstacle2Lane].AddObject(obj2);
 
-        if (_aiPlayer != null)
+        //därefter, powerup spawn med exakt samma logik
+
+        // 25% chans för powerup
+        if (_random.Next(0, 100) < 25)
         {
-            foreach (var laneIndex in selectedObstacleLanes)
+            int powerupLane = _random.Next(0, NumberOfLanes);
+            
+            while (powerupLane == obstacle1Lane || powerupLane == obstacle2Lane)
             {
-                var lane = _aiLanes[laneIndex];
-                var obj = _obstacleFactory.CreateGameObject(lane.XPosition, 0);
-                lane.AddObject(obj);
+                powerupLane = _random.Next(0, NumberOfLanes);
             }
             
-            if (powerupLane.HasValue)
-            {
-                var lane = _aiLanes[powerupLane.Value];
-                var powerup = _powerupFactory.CreateGameObject(lane.XPosition, 0);
-                lane.AddObject(powerup);
-            }
+            var powerup = _powerupFactory.CreateGameObject(_playerLanes[powerupLane].XPosition, 0);
+            _playerLanes[powerupLane].AddObject(powerup);
+        }
+
+        // Om det finns AI, gör samma sak för AI:n
+        if (_aiPlayer != null)
+        {
+            var aiObj1 = _obstacleFactory.CreateGameObject(_aiLanes[obstacle1Lane].XPosition, 0);
+            _aiLanes[obstacle1Lane].AddObject(aiObj1);
+            
+            var aiObj2 = _obstacleFactory.CreateGameObject(_aiLanes[obstacle2Lane].XPosition, 0);
+            _aiLanes[obstacle2Lane].AddObject(aiObj2);
         }
     }
 
     private void CheckCollisions()
     {
         var humanLane = _playerLanes[_humanPlayer.CurrentLane];
-        var humanCollisions = humanLane
-            .Where(obj => obj.IsActive)
-            .Where(obj => Math.Abs(obj.Y - PlayerYPosition) <= 1)
-            .ToList();
-
-        foreach (var obj in humanCollisions)
+        
+        foreach (var obj in humanLane)
         {
-            if (obj is Powerup powerup)
+            if (!obj.IsActive)
+                continue;
+                
+            int distance = Math.Abs(obj.Y - PlayersY);
+
+            if (distance == 0)
             {
-                _messageEvents.TryAdd($"       LETS GO!");
-            }
-            else if (obj is Obstacle obstacle)
-            {
-                if (obstacle.Type != ObstacleType.Bomb)
+                // kollisionseffekt längst upp
+                if (obj is Powerup)
+                {
+                    _messageEvents.TryAdd($"       LETS GO!");
+                }
+                else if (obj is Obstacle obstacle && obstacle.Type != ObstacleType.Bomb)
                 {
                     _messageEvents.TryAdd("         AUCH!");
                 }
+                
+                _lastCollisionObject = obj;
+                obj.HandleCollision(_humanPlayer);
             }
-            
-            _lastCollisionObject = obj;
-            obj.HandleCollision(_humanPlayer);
         }
 
+        // samma för AI om det finns
         if (_aiPlayer != null)
         {
             var aiLane = _aiLanes[_aiPlayer.CurrentLane];
-            var aiCollisions = aiLane
-                .Where(obj => obj.IsActive)
-                .Where(obj => Math.Abs(obj.Y - PlayerYPosition) <= 1)
-                .ToList();
-
-            foreach (var obj in aiCollisions)
+            
+            foreach (var obj in aiLane)
             {
-                obj.HandleCollision(_aiPlayer);
+                if (!obj.IsActive)
+                    continue;
+                    
+                int distance = Math.Abs(obj.Y - PlayersY);
+                if (distance == 0)
+                {
+                    obj.HandleCollision(_aiPlayer);
+                }
             }
         }
     }
 
     private void CleanupObjects()
     {
+        // såfort objekts Y är mindre än -1 så är de irrelevanta och tas bort.
         foreach (var lane in _playerLanes)
         {
             lane.RemoveInactiveObjects();
-            lane.RemoveWhere(obj => obj.Y < -5 || obj.Y > ScreenHeight);
+            lane.RemoveWhere(obj => obj.Y <= -1);
         }
 
         if (_aiPlayer != null)
@@ -199,41 +206,26 @@ public class Game
             foreach (var lane in _aiLanes)
             {
                 lane.RemoveInactiveObjects();
-                lane.RemoveWhere(obj => obj.Y < -5 || obj.Y > ScreenHeight);
+                lane.RemoveWhere(obj => obj.Y <= -1);
             }
         }
-
-        var totalActiveObjects = _playerLanes
-            .SelectMany(lane => lane)
-            .Count(obj => obj.IsActive);
-
-        var obstacleCount = _playerLanes
-            .SelectMany(lane => lane)
-            .OfType<Obstacle>()
-            .Count(obj => obj.IsActive);
-
-        var powerupCount = _playerLanes
-            .SelectMany(lane => lane)
-            .OfType<Powerup>()
-            .Count(obj => obj.IsActive);
     }
 
     public void DrawInitialFrame()
-    {
-        DrawGameArea();
-        DrawLanes();
+    { 
+        DrawLanes(); // dags att rita ut själva lanesen
     }
 
     public void Render()
     {
-        ClearPlayArea();
+        ClearPlayArea(); //tömmer alla lanes
 
         foreach (var lane in _playerLanes)
         {
-            lane.RenderAll();
+            lane.RenderAll(); //fyller alla lanes igen
         }
 
-        _humanPlayer.Render(PlayerYPosition);
+        _humanPlayer.Render(PlayersY); //fyller i spelaren
 
         if (_aiPlayer != null)
         {
@@ -242,18 +234,18 @@ public class Game
                 lane.RenderAll();
             }
             
-            _aiPlayer.Render(PlayerYPosition);
+            _aiPlayer.Render(PlayersY);
         }
 
-        DrawUI();
+        DrawUI(); //ritar UI längst upp och längst ner
     }
 
-    private void ClearPlayArea()
+    private void ClearPlayArea() //rensningmetoden
     {
-        for (int laneNum = 0; laneNum < NumLanes; laneNum++)
+        for (int laneNum = 0; laneNum < NumberOfLanes; laneNum++)
         {
-            int laneX = LeftPlayfieldOffset + (laneNum * 4);
-            for (int y = 1; y < ScreenHeight - 1; y++)
+            int laneX = LaneOffset + (laneNum * 4);
+            for (int y = 1; y < GameHeight - 1; y++)
             {
                 Console.SetCursorPosition(laneX, y);
                 Console.Write("  ");
@@ -262,10 +254,10 @@ public class Game
 
         if (_aiPlayer != null)
         {
-            for (int laneNum = 0; laneNum < NumLanes; laneNum++)
+            for (int laneNum = 0; laneNum < NumberOfLanes; laneNum++)
             {
-                int laneX = RightPlayfieldOffset + (laneNum * 4);
-                for (int y = 1; y < ScreenHeight - 1; y++)
+                int laneX = LaneOffsetAI + (laneNum * 4);
+                for (int y = 1; y < GameHeight - 1; y++)
                 {
                     Console.SetCursorPosition(laneX, y);
                     Console.Write("  ");
@@ -274,21 +266,12 @@ public class Game
         }
     }
 
-    private void DrawGameArea()
+    private void DrawLanes() //ritar själva lanes
     {
-        for (int y = 0; y < ScreenHeight; y++)
+        for (int i = -1; i < NumberOfLanes; i++)
         {
-            Console.SetCursorPosition(0, y);
-            Console.Write("║");
-        }
-    }
-
-    private void DrawLanes()
-    {
-        for (int i = -1; i < NumLanes; i++)
-        {
-            int x = LeftPlayfieldOffset + (i * 4) + 2;
-            for (int y = 1; y < ScreenHeight - 1; y++)
+            int x = LaneOffset + (i * 4) + 2;
+            for (int y = 1; y < GameHeight - 1; y++)
             {
                 Console.SetCursorPosition(x, y);
                 Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -297,10 +280,10 @@ public class Game
             }
         }
 
-        if (_aiPlayer != null)
+        if (_aiPlayer != null) //ritar divider och lanes för AI if...
         {
             int separatorX = 32;
-            for (int y = 1; y < ScreenHeight - 1; y++)
+            for (int y = 1; y < GameHeight - 1; y++)
             {
                 Console.SetCursorPosition(separatorX, y);
                 Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -308,10 +291,10 @@ public class Game
                 Console.ResetColor();
             }
 
-            for (int i = -1; i < NumLanes; i++)
+            for (int i = -1; i < NumberOfLanes; i++)
             {
-                int x = RightPlayfieldOffset + (i * 4) + 2;
-                for (int y = 1; y < ScreenHeight - 1; y++)
+                int x = LaneOffsetAI + (i * 4) + 2;
+                for (int y = 1; y < GameHeight - 1; y++)
                 {
                     Console.SetCursorPosition(x, y);
                     Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -322,39 +305,57 @@ public class Game
         }
     }
 
-    private void DrawUI()
+    private void DrawUI()  // Rita info "utanför" spelplanen
     {
-        Console.SetCursorPosition(2, ScreenHeight - 1);
-        Console.Write(new string(' ', ScreenWidth - 4));
-        Console.SetCursorPosition(2, ScreenHeight - 1);
+        string hearts = "";
+        for (int i = 0; i < _humanPlayer.Hearts; i++)
+        {
+            hearts += "<3 ";
+        }
+
+        //för att rita ut rensar vi först UIn för konsekvent visning
+        Console.SetCursorPosition(2, GameHeight - 1);//uppe
+        Console.Write(new string(' ', GameWidth - 4));
+
+        Console.SetCursorPosition(2, 0);//nere
+        Console.Write(new string(' ', GameWidth - 4));
+
+        //placerar cursor och skriver längst ner
+        Console.SetCursorPosition(2, GameHeight - 1);
         Console.ForegroundColor = ConsoleColor.Cyan;
-        string hearts = string.Concat(Enumerable.Repeat("<3 ", _humanPlayer.Hearts));
-        Console.Write($"👤PLAYER : {hearts} Score={_humanPlayer.Score}");
-        
+        Console.Write($"PLAYER 1 : {hearts} Score={_humanPlayer.Score}");
+
         if (_lastCollisionObject != null)
         {
             Console.Write("  ");
-            _lastCollisionObject.RenderCollisionEffect(Console.CursorLeft, ScreenHeight - 1);
+            _lastCollisionObject.RenderCollisionEffect(Console.CursorLeft, GameHeight - 1);
         }
 
-        Console.SetCursorPosition(2, 0);
-        Console.Write(new string(' ', ScreenWidth - 4));
+        // placerar cursor längst upp för att skriva längst upp
         Console.SetCursorPosition(2, 0);
         
-        var latestMessage = _messageEvents.GetAll().LastOrDefault();
-        if (!string.IsNullOrEmpty(latestMessage))
+        string[] messages = _messageEvents.GetAll().ToArray();
+
+        if (messages.Length > 0)
         {
+            string latestMessage = messages[messages.Length - 1];
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write($"{latestMessage}");
+            Console.Write(latestMessage);
         }
         else if (_aiPlayer != null)
         {
+            // Visa AI info
             Console.ForegroundColor = ConsoleColor.Yellow;
-            string aiHearts = string.Concat(Enumerable.Repeat("<3 ", _aiPlayer.Hearts));
+            string aiHearts = "";
+            for (int i = 0; i < _aiPlayer.Hearts; i++)
+            {
+                aiHearts += "<3 ";
+            }
             Console.Write($"BOT : {aiHearts}");
         }
         else
         {
+            // visar ett initiellt meddelande tills event
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write($"DU SPELAR SOLO-LÄGET");
         }
@@ -362,14 +363,16 @@ public class Game
         Console.ResetColor();
     }
 
-    public bool IsGameOver()
+    public bool IsGameOver() // metod för om död
+
     {
-        if (_aiPlayer == null)
-        {
-            return !_humanPlayer.IsAlive;
-        }
-        
-        return !_humanPlayer.IsAlive || !_aiPlayer.IsAlive;
+        if (!_humanPlayer.IsAlive)
+            return true;
+            
+        if (_aiPlayer != null && !_aiPlayer.IsAlive)
+            return true;
+            
+        return false;
     }
 
     public void ShowGameOver()

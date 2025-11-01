@@ -2,13 +2,13 @@ using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS.Rendering;
 
-public class ColoredRenderer : IRenderable
+public class ColoredRender : IRender
 {
     private readonly char _symbol;
     private readonly ConsoleColor _foregroundColor;
     private readonly ConsoleColor _backgroundColor;
 
-    public ColoredRenderer(char symbol, ConsoleColor foregroundColor, ConsoleColor backgroundColor)
+    public ColoredRender(char symbol, ConsoleColor foregroundColor, ConsoleColor backgroundColor)
     {
         _symbol = symbol;
         _foregroundColor = foregroundColor;

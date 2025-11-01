@@ -2,12 +2,12 @@ using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS.Rendering;
 
-public class AsciiRenderer : IRenderable
+public class SymbolRender : IRender
 {
     private readonly char _symbol;
     private readonly ConsoleColor _color;
 
-    public AsciiRenderer(char symbol, ConsoleColor color = ConsoleColor.White)
+    public SymbolRender(char symbol, ConsoleColor color = ConsoleColor.White)
     {
         _symbol = symbol;
         _color = color;

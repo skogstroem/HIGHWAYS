@@ -1,6 +1,6 @@
 namespace HIGHWAYS.Interfaces;
 
-public interface IRenderable
+public interface IRender
 {
     void Render(int x, int y);
     char GetSymbol();

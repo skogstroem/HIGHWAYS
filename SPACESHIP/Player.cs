@@ -2,7 +2,7 @@ using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS.Players;
 
-public class HumanPlayer : IPlayer
+public class Player : IPlayer
 {
     public string Name { get; }
     public int CurrentLane { get; private set; }
@@ -13,7 +13,7 @@ public class HumanPlayer : IPlayer
     private readonly int _maxLanes;
     private const int MaxHearts = 10;
 
-    public HumanPlayer(string name, int startLane, int maxLanes)
+    public Player(string name, int startLane, int maxLanes)
     {
         Name = name;
         CurrentLane = startLane;

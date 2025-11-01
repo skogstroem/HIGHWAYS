@@ -4,7 +4,7 @@ using HIGHWAYS.Players;
 
 namespace HIGHWAYS.Movement;
 
-public class ZigZagStrategy : IMovementStrategy
+public class ZigZagStrategy : IStrategy
 {
     private bool _movingRight = true;
     private int _moveCounter = 0;

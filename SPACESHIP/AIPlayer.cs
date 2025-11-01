@@ -11,12 +11,12 @@ public class AIPlayer : IPlayer
     public int Score { get; private set; }
     public bool IsAlive => Hearts > 0;
 
-    private readonly IMovementStrategy _movementStrategy;
+    private readonly IStrategy _movementStrategy;
     private readonly int _maxLanes;
     private int _updateCounter = 0;
     private const int MaxHearts = 10;
 
-    public AIPlayer(string name, int startLane, int maxLanes, IMovementStrategy movementStrategy)
+    public AIPlayer(string name, int startLane, int maxLanes, IStrategy movementStrategy)
     {
         Name = name;
         CurrentLane = startLane;

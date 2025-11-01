@@ -7,11 +7,11 @@ public abstract class GameObject
     public int Y { get; set; }
     public bool IsActive { get; set; } = true;
 
-    protected IRenderable Renderer { get; set; }
+    protected IRender Renderer { get; set; }
 
     protected IBehavior Behavior { get; set; }
 
-    protected GameObject(int x, int y, IRenderable renderer, IBehavior behavior)
+    protected GameObject(int x, int y, IRender renderer, IBehavior behavior)
     {
         X = x;
         Y = y;

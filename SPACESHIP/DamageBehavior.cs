@@ -4,9 +4,9 @@ namespace HIGHWAYS.Behaviors;
 
 public class DamageBehavior : IBehavior
 {
-    private readonly IRenderable _effectRenderer;
+    private readonly IRender _effectRenderer;
 
-    public DamageBehavior(IRenderable effectRenderer)
+    public DamageBehavior(IRender effectRenderer)
     {
         _effectRenderer = effectRenderer;
     }

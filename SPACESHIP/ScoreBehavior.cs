@@ -4,9 +4,9 @@ namespace HIGHWAYS.Behaviors;
 
 public class ScoreBehavior : IBehavior
 {
-    private readonly IRenderable _effectRenderer;
+    private readonly IRender _effectRenderer;
 
-    public ScoreBehavior(IRenderable effectRenderer)
+    public ScoreBehavior(IRender effectRenderer)
     {
         _effectRenderer = effectRenderer;
     }

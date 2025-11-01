@@ -12,7 +12,8 @@ class Program
     static void Main(string[] args)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8; // För att kunna pimpa spelet lite
-        
+        Console.CursorVisible = false;
+
         while (true)
         {
             ShowWelcomeScreen();
@@ -34,7 +35,7 @@ class Program
                 return;
             }
             
-            var humanPlayer = new HumanPlayer("Spelare", startLane: 2, maxLanes: 5);
+            var humanPlayer = new Player("Spelare", startLane: 2, maxLanes: 5);
             
             AIPlayer? aiPlayer = null;
             if (choice == '2')
@@ -48,7 +49,7 @@ class Program
                 var strategyChoice = Console.ReadKey(true).KeyChar;
                 Console.WriteLine();
 
-                IMovementStrategy aiStrategy;
+                IStrategy aiStrategy;
                
                 switch (strategyChoice)
                 {
@@ -85,7 +86,7 @@ class Program
             var powerupFactory = new PowerupFactory();
 
             var game = new Game(humanPlayer, aiPlayer, obstacleFactory, powerupFactory);
-            var gameLoop = new GameLoop(game);
+            var gameLoop = new Loop(game);
 
             gameLoop.Start();
             

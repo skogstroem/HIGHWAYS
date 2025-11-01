@@ -4,9 +4,9 @@ namespace HIGHWAYS.Behaviors;
 
 public class BombBehavior : IBehavior
 {
-    private readonly IRenderable _effectRenderer;
+    private readonly IRender _effectRenderer;
 
-    public BombBehavior(IRenderable effectRenderer)
+    public BombBehavior(IRender effectRenderer)
     {
         _effectRenderer = effectRenderer;
     }

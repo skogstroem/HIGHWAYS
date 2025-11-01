@@ -4,7 +4,7 @@ using HIGHWAYS.Players;
 
 namespace HIGHWAYS;
 
-public class AdvancedStrategy : IMovementStrategy
+public class AdvancedStrategy : IStrategy
 {
     
     public int DecideNextLane(int currentLane, IEnumerable<Lane> lanes, int maxLanes)

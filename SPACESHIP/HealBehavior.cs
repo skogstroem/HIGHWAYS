@@ -4,9 +4,9 @@ namespace HIGHWAYS.Behaviors;
 
 public class HealBehavior : IBehavior
 {
-    private readonly IRenderable _effectRenderer;
+    private readonly IRender _effectRenderer;
 
-    public HealBehavior(IRenderable effectRenderer)
+    public HealBehavior(IRender effectRenderer)
     {
         _effectRenderer = effectRenderer;
     }
