@@ -12,10 +12,9 @@ Spelet är framförallt byggt efter SOLID-principerna men nyttjar specifikt de 6
 
 AI Usage:
 ---------------
-AI har använts som rådgivare vid startskedet av projektet för att ta fram projektets mapp och filstruktur.
+AI har använts som rådgivare vid startskedet av projektet för att ta fram en plan hur vi skulle kunna få in konceptkraven i spelidén.
 AI har också rådfrågats till hur vi på ett bra sätt kunnat genomföra logiken bakom den interaktiva spelplanen.
-AI användes också för att säkerställa att spelidén och dess ingående detaljer/funktioner tillgodoser konceptkraven effektivt och på ett meningsfullt sätt. Detta i de fall då gruppen haft svårt att avgöra just meningsfullhet själva.
-Utöver det har CO-pilot använts som assistent vid kodskrivandet.
+CO-pilot använts som assistent vid kodskrivandet.
 
 CHATTENS SAMMANSTÄLLNING AV KONCEPTKRAVEN:
 
