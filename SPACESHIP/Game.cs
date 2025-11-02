@@ -391,11 +391,11 @@ public class Game
         {
             Console.WriteLine($"Slutresultat: {finalScore} poäng!");
         }
-        else if (_humanPlayer.IsAlive)
+        else if (_humanPlayer.IsAlive && !_aiPlayer.IsAlive)
         {
             Console.WriteLine($"{_humanPlayer.Name} VINNER! (Score: {finalScore})");
         }
-        else if (_aiPlayer.IsAlive)
+        else if (_aiPlayer.IsAlive && !_humanPlayer.IsAlive)
         {
             Console.WriteLine($"{_aiPlayer.Name} VINNER! (Score: {_aiPlayer.Score})");
             Console.WriteLine($"Din poäng: {finalScore}");
