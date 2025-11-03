@@ -11,7 +11,7 @@ class Program
     {
         while (true)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8; // För att kunna pimpa spelet lite
+            Console.OutputEncoding = System.Text.Encoding.UTF8; // För att kunna pimpa spelet lite!
             Console.CursorVisible = false;
             GameLogic gameLogic = new GameLogic();
 
