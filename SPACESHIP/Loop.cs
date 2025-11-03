@@ -8,7 +8,7 @@ public class Loop
 
     public Loop(Game game)
     {
-        _game = game ?? throw new ArgumentNullException(nameof(game));
+        _game = game;
         _isRunning = false;
     }
 
