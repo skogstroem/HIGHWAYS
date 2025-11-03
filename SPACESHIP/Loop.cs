@@ -4,7 +4,7 @@ public class Loop
 {
     private readonly Game _game;
     private bool _isRunning;
-    private const int LoopDelay = 50; // delayen i threads mellan varje loop
+    private const int LoopDelay = 67; // delayen i threads mellan varje loop
 
     public Loop(Game game)
     {

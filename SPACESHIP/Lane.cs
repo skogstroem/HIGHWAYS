@@ -8,7 +8,7 @@ public class Lane : IEnumerable<GameObject>
     public int LaneNumber { get; }
     public int XPosition { get; }
 
-    public Lane(int laneNumber, int xPosition, int capacity = 50)
+    public Lane(int laneNumber, int xPosition, int capacity = 50000)
     {
         LaneNumber = laneNumber;
         XPosition = xPosition;
@@ -47,15 +47,23 @@ public class Lane : IEnumerable<GameObject>
         }
     }
 
-    // 
     public IEnumerable<GameObject> GetActiveObjects()
     {
         return _objects.GetAll().Where(obj => obj.IsActive);
     }
 
+    // KRAV #5:
+    // 1: Enumerable och enumerator 
+    // 2: Vi implenterar  GetEnumerator() som returnerar en enumerator över enbart de aktiva
+    //    objekten som finns i den aktuella lane:en. På så sätt döljer vi den interna strukturen
+    //    av objekten och ger en skapar en kontrollerad iteration. 
+    // 3: Vi använder konceptet dels för att det gör koden renare och tydligare, men också för att det tillåter 
+    //    andra klasser att traversera över lanes:en och utföra operationer på objekten
+    //    som uppdaterar deras tillstånd exempelvis kollisoner mellan spelare och objekt.
+
     public IEnumerator<GameObject> GetEnumerator()
     {
-        // Använd GetEnumerator() från IEnumerable istället för att yielda
+        // använd GetEnumerator() från IEnumerable istället för att yielda för att uppfylla kravet korrekt
         return _objects.GetAll()
             .Where(obj => obj.IsActive)
             .GetEnumerator();

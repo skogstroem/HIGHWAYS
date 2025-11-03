@@ -1,5 +1,8 @@
 namespace HIGHWAYS.Generics;
-
+// KRAV #1:
+// 1: GENERICS.
+// 2: ObjectBuffer används med olika typ-argument, vi använder den i Lane för att lagra objekt i lanesen, och i game med messageevents för grafik längst upp i spelet.
+// 3: Återvändbarhet. Constrainten säkerställer att vi inte använder värdetyper utan bara referenstyper, vilket skapar ytterliggare typsäkerhet.
 public class ObjectBuffer<T> where T : class
 {
     private readonly T[] _buffer;

@@ -68,7 +68,7 @@ public class AIPlayer : IPlayer
     }
     public int GetXPosition()
     {
-        return 35 + (CurrentLane * 4);
+        return 42 + (CurrentLane * 4);
     }
 }
 

@@ -191,7 +191,12 @@ public class Game
             }
         }
     }
-
+    // KRAV #6
+    // 1: LINQ.
+    // 2: Vi använder LINQ flitigt, men här för att simplifiera en algoritm som städar upp spelplanen och raderar de irrelevanta objekt (av typ GameObject) som finns. Irrelevant objekt i denna kontext är 
+    //    de objekt vars Y-koordinat befinner sig utanför den renderade spelplanen. 
+    // 3: Om vi inte hade använt LINQ hade vi behövt manuellt iterera igenom repsktive lane ytterligare en gång för att radera de irrelevanta objekten ur listan. Detta hade dels 
+    //    blivit en krångligare lösning och försämrat tidskomplexiteten. Vilket är varför vi valt att använda LINQ istället. 
     private void CleanupObjects()
     {
         // såfort objekts Y är mindre än -1 så är de irrelevanta och tas bort.
@@ -342,9 +347,10 @@ public class Game
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write(latestMessage);
         }
+
         else if (_aiPlayer != null)
         {
-            // Visa AI info
+            // visar ett initiellt meddelande tills event - Visa AI info
             Console.ForegroundColor = ConsoleColor.Yellow;
             string aiHearts = "";
             for (int i = 0; i < _aiPlayer.Hearts; i++)
@@ -355,7 +361,6 @@ public class Game
         }
         else
         {
-            // visar ett initiellt meddelande tills event
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write($"DU SPELAR SOLO-LÄGET");
         }

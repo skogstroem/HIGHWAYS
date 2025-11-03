@@ -26,7 +26,7 @@ public class PowerupFactory : IGameObjectFactory
     private static Powerup CreateScorePowerup(int x, int y)
     {
         var renderer = new ColoredRender('$', ConsoleColor.Cyan, ConsoleColor.Blue);
-        var effectRenderer = new SymbolRender('★', ConsoleColor.Blue);
+        var effectRenderer = new SymbolRender('*', ConsoleColor.Blue);
         var behavior = new ScoreBehavior(effectRenderer);
         return new Powerup(x, y, renderer, behavior, PowerupType.Score);
     }

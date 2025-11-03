@@ -13,7 +13,7 @@ public class GameLogic
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("╔══════════════════════════════════════════════════════╗");
         Console.WriteLine("║                                                      ║");
-        Console.WriteLine("║                        HIGHWAY!                      ║");
+        Console.WriteLine("║                        HIGHWAYS!                     ║");
         Console.WriteLine("║                                                      ║");
         Console.WriteLine("╚══════════════════════════════════════════════════════╝");
         Console.ResetColor();
@@ -43,13 +43,14 @@ public class GameLogic
 
     public void ShowStartMenu()
     {
-        Console.Write(" Undvik hindren och plocka powerups! \n" +
+        Console.Write(" Undvik hindren och plocka powerups! \n\n" +
                       " Powerups: Grön = Extra HP \n " +
                       "Blå = Dubbla score! \n " +
+                      "Röd = BOMB! GAME OVER! \n\n " +
                       "Välj gamemode: \n " +
                       "1. Solo: \n " +
                       "2. Mot bot: \n "  +
-                      "3. Avsluta spelet \n " +
+                      "3. Avsluta spelet \n\n " +
                       "Välj (1-3):"
         );
     }
