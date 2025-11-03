@@ -13,5 +13,5 @@ Spelet är framförallt byggt efter SOLID-principerna men nyttjar specifikt de 6
 AI Usage:
 ---------------
 AI har använts som rådgivare vid startskedet av projektet för att ta fram en plan hur vi skulle kunna få in konceptkraven i spelidén.
-AI har också rådfrågats till hur vi på ett bra sätt kunnat genomföra logiken bakom den interaktiva spelplanen.
-CO-pilot har använts flitigt som assistent vid kodskrivandet.
+AI har också använts till att ta fram strategin och tillämpning för hur vi på ett bra sätt genomföra logiken och uppdatering av den interaktiva spelplanen.
+CO-pilot i VS har konitnuerligt assisterat vid kodskrivandet.
