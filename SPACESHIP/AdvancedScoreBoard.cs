@@ -4,7 +4,7 @@ using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS
 {
-    internal class AdvancedScoreBoard : IScoreBoard
+    public class AdvancedScoreBoard : IScoreBoard
     {
         private readonly IFile _storage;
 
@@ -40,7 +40,7 @@ namespace HIGHWAYS
 
                 var top = group
                     .OrderByDescending(e => e.Score)
-                    .Take(5)
+                    .Take(4)
                     .ToList();
 
                 // Pad till 5 rader med "tomt" om färre än 5 poster finns.

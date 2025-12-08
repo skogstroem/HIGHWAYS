@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace HIGHWAYS.Interfaces
 {
-    interface IFile
+    public interface IFile
     {
         void Save(string playerName, int score, int gameMode);
         List<(string PlayerName, int Score, int GameMode)> Fetch();

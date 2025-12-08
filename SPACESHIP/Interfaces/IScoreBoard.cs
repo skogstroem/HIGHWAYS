@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HIGHWAYS.Interfaces
 {
-    internal interface IScoreBoard
+    public interface IScoreBoard
     {
         void Draw();
 
