@@ -1,6 +1,7 @@
 using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS.GameObjects;
+
 public abstract class GameObject
 {
     public int X { get; set; }
@@ -32,18 +33,21 @@ public abstract class GameObject
         }
     }
 
-    public void HandleCollision(IPlayer player)
+    public void HandleCollision (IPlayer player)
     {
         Behavior.OnCollision(player);
         IsActive = false;
+        HandleStreak(player);
     }
-    
-    public void RenderCollisionEffect(int uiX, int uiY)
+
+    public virtual void HandleStreak (IPlayer player) {}
+
+public void RenderCollisionEffect(int uiX, int uiY)
     {
         Behavior.RenderEffect(uiX, uiY);
     }
 
-    public bool CollidesWith(int playerX, int playerY)
+    public bool CollidesWith (int playerX, int playerY)
     {
         return IsActive && X == playerX && Y == playerY;
     }

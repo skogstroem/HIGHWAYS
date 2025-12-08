@@ -1,3 +1,4 @@
+using HIGHWAYS.GameObjects;
 using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS.Behaviors;
@@ -14,6 +15,9 @@ public class DamageBehavior : IBehavior
     public void OnCollision(IPlayer player)
     {
         player.LoseHeart();
+        player.Streak = 0;
+        
+        
     }
 
     public void RenderEffect(int x, int y)

@@ -7,8 +7,10 @@ public class Player : IPlayer
     public string Name { get; }
     public int CurrentLane { get; private set; }
     public int Hearts { get; private set; }
-    public int Score { get; private set; }
+    public int Score { get; set; }
     public bool IsAlive => Hearts > 0;
+    
+    public int Streak { get; set; }
 
     private readonly int _maxLanes;
     private const int MaxHearts = 10;
@@ -20,6 +22,7 @@ public class Player : IPlayer
         _maxLanes = maxLanes;
         Hearts = 3; 
         Score = 0;
+        Streak = 0;
     }
 
     public void MoveToLane(int lane)

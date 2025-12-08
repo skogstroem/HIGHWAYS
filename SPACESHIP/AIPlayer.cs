@@ -8,7 +8,10 @@ public class AIPlayer : IPlayer
     public string Name { get; }
     public int CurrentLane { get; private set; }
     public int Hearts { get; private set; }
-    public int Score { get; private set; }
+    public int Score { get; set; }
+    
+    public int Streak { get; set; }
+    
     public bool IsAlive => Hearts > 0;
 
     private readonly IStrategy _movementStrategy;

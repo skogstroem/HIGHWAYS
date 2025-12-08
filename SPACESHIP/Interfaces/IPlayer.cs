@@ -5,8 +5,10 @@ public interface IPlayer
     string Name { get; }
     int CurrentLane { get; }
     int Hearts { get; }
-    int Score { get; }
+    int Score { get; set; }
     bool IsAlive { get; }
+    
+    int Streak { set; get; }
 
     void MoveToLane(int lane);
     void LoseHeart();

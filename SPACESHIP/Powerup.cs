@@ -10,6 +10,17 @@ public class Powerup : GameObject
     {
         Type = type;
     }
+    
+    public override void HandleStreak(IPlayer player)
+    {
+        if (player.Streak >= 3)
+        {
+            player.Score =+ 10000;
+            player.Streak++;
+        }
+        else
+            player.Streak++;
+    }
 }
 
 public enum PowerupType

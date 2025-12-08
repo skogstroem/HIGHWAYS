@@ -14,6 +14,9 @@ public class ScoreBehavior : IBehavior
     public void OnCollision(IPlayer player)
     {
         player.IncreaseScore(player.Score);
+        player.Streak++;
+        
+        // obstacle.CountStreak 
     }
 
     public void RenderEffect(int x, int y)
