@@ -25,6 +25,12 @@ public class Player : IPlayer
         Streak = 0;
     }
 
+    public Player(string name, int score)
+    {
+        Name = name;
+        Score = score;
+    }
+
     public void MoveToLane(int lane)
     {
         if (lane >= 0 && lane < _maxLanes)

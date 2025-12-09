@@ -1,3 +1,4 @@
+using HIGHWAYS.FileManager;
 using HIGHWAYS.Interfaces;
 using HIGHWAYS.Movement;
 using HIGHWAYS.Players;
@@ -32,6 +33,45 @@ public class GameLogic
                           "\n 3. Random strategy (datorn rör sig spontant" +
                           "\n Val (1-3);"
         );
+    }
+
+    public IFile SelectFileType ()
+   
+    {
+        Console.WriteLine("\nVälj vilken typ av fil du vill spara till:" +
+                          "\n 1. Textfil (txt.)" + 
+                          "\n 2. Excelfil (CSV.)" 
+        );
+        
+        bool validChoice = false;
+        int choice = 1;
+        
+        while (!validChoice)
+        {
+            var key = Console.ReadKey(true).KeyChar;
+            
+            if (int.TryParse(key.ToString(), out choice) && choice <= 2 && choice >= 1)
+            {
+                validChoice = true;
+            }
+            else
+            {
+                Console.Clear();
+                Console.Write("\n Ogiltigt val! Vänligen välj mellan: "
+                              + "\n 1. Textfil (txt.)" +
+                              "\n 2. Excelfil (csv.)");
+            } 
+        }
+        
+        IFile file = choice switch
+        {
+            1 => new FileTxt(),
+            2 => new FileCSV(),
+            _ => new FileCSV()
+        };
+        
+
+        return file;
     }
 
     public void EndProgram()
@@ -104,7 +144,6 @@ public class GameLogic
         Console.ReadKey(true);
     }
     
-    
     public IStrategy SelectStrategyAndCreateBot()
     {
         bool validChoice = false;
@@ -136,5 +175,38 @@ public class GameLogic
         };
 
         return selectedStrategy;
+    }
+
+
+    // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
+    public void SaveHighScore()
+    {
+        
+        try
+        {
+            bool validChoice = false;
+            Console.Write("Skriv in ditt namn: ");
+            
+            while (!validChoice)
+            {
+                string username = Console.ReadLine();
+               
+                if (username.Trim().Length > 20 || username.Trim().Length < 1)
+                {
+                    Console.Write("\n Ogiltigt användarnamn! Måste vara mellan 1 och 20 tecken: ");
+                    validChoice = true;
+                }
+                else
+                {
+                    // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
+                    validChoice = true;
+                }
+                    
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Hoppsan! Ett fel uppstod när du skulle sparas: " + e.Message);
+        }
     }
 }

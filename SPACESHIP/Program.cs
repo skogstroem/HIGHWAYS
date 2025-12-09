@@ -1,6 +1,7 @@
 ﻿using HIGHWAYS.Core;
 using HIGHWAYS.Players;
 using HIGHWAYS.Factories;
+using HIGHWAYS.FileManager;
 using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS;
@@ -9,11 +10,13 @@ class Program
 {
     static void Main(string[] args)
     {
+        GameLogic gameLogic = new GameLogic();
+        IFile file = gameLogic.SelectFileType(); // Här hämtar vi filen
+        
         while (true)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8; // För att kunna pimpa spelet lite!
             Console.CursorVisible = false;
-            GameLogic gameLogic = new GameLogic();
 
             gameLogic.ShowWelcomeScreen();
             gameLogic.ShowStartMenu();
@@ -27,7 +30,7 @@ class Program
             IGameObjectFactory obstacleFactory = new ObstacleFactory();
             IGameObjectFactory powerupFactory = new PowerupFactory();
 
-            Game game = new Game(humanPlayer, aiPlayer, obstacleFactory, powerupFactory);
+            Game game = new Game(humanPlayer, aiPlayer, obstacleFactory, powerupFactory); // Skicka in filen här till våran scoreboard 
             Loop gameLoop = new Loop(game);
 
             gameLoop.Start();

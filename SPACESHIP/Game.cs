@@ -24,6 +24,12 @@ public class Game
 
     private readonly IGameObjectFactory _obstacleFactory;
     private readonly IGameObjectFactory _powerupFactory;
+    
+    // public Scoreboard scoreboard 
+    
+    // scoreboard = normal
+    
+    // scoreboard = advanced 
 
     private readonly Random _random;
 
@@ -412,10 +418,46 @@ public class Game
         }
 
         Console.ResetColor();
-
         Console.WriteLine();
-        Console.WriteLine("Tryck på valfri tangent för att fortsätta...");
-        Console.ReadKey(true);
+        
+        SaveHighScore();
+    }
+    
+    // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
+    public void SaveHighScore()
+    {
+        
+        try
+        {
+            bool validChoice = false;
+            string username = "";
+            
+            Console.Write("Skriv in ditt namn: ");
+            
+            while (!validChoice)
+            {
+                username = Console.ReadLine() ?? "";
+
+                username.Replace(",", "");
+                username.Trim();
+                
+                if (username.Length > 20 || username.Length < 1)
+                {
+                    Console.Write("\n Ogiltigt användarnamn! Måste vara mellan 1 och 20 tecken: ");
+                    validChoice = true;
+                }
+                
+                else
+                {
+                    // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
+                    validChoice = true;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Hoppsan! Ett fel uppstod när du skulle sparas till filen: " + e.Message);
+        }
     }
 }
 
