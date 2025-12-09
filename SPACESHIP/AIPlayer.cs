@@ -5,7 +5,11 @@ namespace HIGHWAYS.Players;
 
 public class AIPlayer : IPlayer
 {
-    public string Name { get; }
+    public string Name { get; set; }
+    
+    public string HighscoreName { get; set; }
+
+    
     public int CurrentLane { get; private set; }
     public int Hearts { get; private set; }
     public int Score { get; set; }
@@ -13,6 +17,11 @@ public class AIPlayer : IPlayer
     public int Streak { get; set; }
     
     public bool IsAlive => Hearts > 0;
+    
+    public int Difficulty { get; set; }
+    
+    public int NumberOfPowersUps { get; set; }
+
 
     private readonly IStrategy _movementStrategy;
     private readonly int _maxLanes;

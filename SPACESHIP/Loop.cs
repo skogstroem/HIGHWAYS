@@ -6,7 +6,7 @@ public class Loop
     private bool _isRunning;
     private const int LoopDelay = 67; // delayen i threads mellan varje loop
 
-    public Loop(Game game)
+    public Loop (Game game)
     {
         _game = game;
         _isRunning = false;

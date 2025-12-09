@@ -14,15 +14,14 @@ public class Obstacle : GameObject
 
     public override void HandleStreak (IPlayer player)
     {
-        if (player.Streak <= 3 && player.Score - 10000 > 0)
+        if (player.Streak <= 3 && player.Score - 10 > 0)
         {
-             player.Score =- 10000;
+             player.Score =- 10;
              player.Streak = 0;
         }
         else
         {
              player.Streak = 0;
-             player.Score = 0;
         }
            
     }

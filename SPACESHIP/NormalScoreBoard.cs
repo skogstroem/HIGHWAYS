@@ -1,24 +1,20 @@
 using System;
 using System.Linq;
+using HIGHWAYS.FileManager;
 using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS
 {
-    internal class NormalScoreBoard : IScoreBoard
+    internal class NormalScoreBoard : ScoreBoard
     {
         private readonly IFile _storage;
 
-        public NormalScoreBoard(IFile storage)
+        public NormalScoreBoard (IFile storage)
         {
             _storage = storage;
         }
-
-        public void Save(string playerName, int score, int gameMode)
-        {
-            _storage.Save(playerName, score, gameMode);
-        }
-
-        public void Draw()
+        
+        public override void Draw()
         {
             var entries = _storage.Fetch();
 
@@ -30,14 +26,16 @@ namespace HIGHWAYS
 
             Console.WriteLine("NORMAL SCOREBOARD \n");
 
-            var ordered = entries
+            var players = entries
                 .OrderByDescending(e => e.Score)
+                .Take(10)
                 .ToList();
 
             int position = 1;
-            foreach (var entry in ordered)
+            
+            foreach (var player in players)
             {
-                Console.WriteLine($"{position}. {entry.Score}p {entry.PlayerName} (Gamemode: {entry.GameMode})");
+                Console.WriteLine($"{position}. {player.Score}p, {player.Name} Gamemode: {player.Difficulty}");
                 position++;
             }
         }

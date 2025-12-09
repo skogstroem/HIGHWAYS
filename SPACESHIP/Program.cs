@@ -22,7 +22,7 @@ class Program
             gameLogic.ShowStartMenu();
 
             Player humanPlayer = new Player("Spelare", startLane: 2, maxLanes: 5);
-            AIPlayer aiPlayer = gameLogic.MenuSeletion();
+            AIPlayer aiPlayer = gameLogic.MenuSeletion(file, humanPlayer);
            
             gameLogic.StartMessage();
 
@@ -30,7 +30,7 @@ class Program
             IGameObjectFactory obstacleFactory = new ObstacleFactory();
             IGameObjectFactory powerupFactory = new PowerupFactory();
 
-            Game game = new Game(humanPlayer, aiPlayer, obstacleFactory, powerupFactory); // Skicka in filen här till våran scoreboard 
+            Game game = new Game(humanPlayer, aiPlayer, obstacleFactory, powerupFactory, file); // Skicka in filen här till våran scoreboard 
             Loop gameLoop = new Loop(game);
 
             gameLoop.Start();

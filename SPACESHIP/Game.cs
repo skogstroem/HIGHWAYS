@@ -1,3 +1,4 @@
+using HIGHWAYS.FileManager;
 using HIGHWAYS.GameObjects;
 using HIGHWAYS.Players;
 using HIGHWAYS.Generics;
@@ -24,6 +25,8 @@ public class Game
 
     private readonly IGameObjectFactory _obstacleFactory;
     private readonly IGameObjectFactory _powerupFactory;
+
+    private IFile _file;
     
     // public Scoreboard scoreboard 
     
@@ -40,14 +43,14 @@ public class Game
     private int _rowCounter; //räknare för spawning
     private const int RowsPerSpawn = 5; //antal rader mellan spawn av objekt
 
-    public Game(Player humanPlayer, AIPlayer? aiPlayer,IGameObjectFactory obstacleFactory,IGameObjectFactory powerupFactory)
+    public Game(Player humanPlayer, AIPlayer? aiPlayer,IGameObjectFactory obstacleFactory,IGameObjectFactory powerupFactory, IFile file)
     {
         _humanPlayer = humanPlayer;
         _aiPlayer = aiPlayer;
         _obstacleFactory = obstacleFactory;
         _powerupFactory = powerupFactory;
         _messageEvents = new ObjectBuffer<string>(100);
-
+        _file = file;
         _playerLanes = new List<Lane>();
 
         for (int i = 0; i < NumberOfLanes; i++)
@@ -449,6 +452,8 @@ public class Game
                 
                 else
                 {
+                    _humanPlayer.HighscoreName = username;
+                    _file.Save(_humanPlayer);
                     // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
                     validChoice = true;
                 }

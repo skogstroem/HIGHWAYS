@@ -4,13 +4,20 @@ namespace HIGHWAYS.Players;
 
 public class Player : IPlayer
 {
-    public string Name { get; }
+    public string Name { get; set; }
+    
+    public string HighscoreName { get; set; }
+
     public int CurrentLane { get; private set; }
     public int Hearts { get; private set; }
     public int Score { get; set; }
     public bool IsAlive => Hearts > 0;
     
     public int Streak { get; set; }
+    
+    public int Difficulty { get; set; }
+    
+    public int NumberOfPowersUps { get; set; }
 
     private readonly int _maxLanes;
     private const int MaxHearts = 10;
@@ -25,10 +32,12 @@ public class Player : IPlayer
         Streak = 0;
     }
 
-    public Player(string name, int score)
+    public Player(string name, int score, int numberOfPowersUps, int difficulty)
     {
         Name = name;
         Score = score;
+        NumberOfPowersUps = numberOfPowersUps;
+        Difficulty = difficulty;
     }
 
     public void MoveToLane(int lane)

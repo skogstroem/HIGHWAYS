@@ -13,6 +13,9 @@ public class Powerup : GameObject
     
     public override void HandleStreak(IPlayer player)
     {
+        
+        player.NumberOfPowersUps++;
+        
         if (player.Streak >= 3)
         {
             player.Score =+ 10000;

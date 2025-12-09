@@ -17,7 +17,7 @@ public class FileCSV : IFile
     public void Save (IPlayer player)
     {
         
-        string line = $"{player.Name},{player.Score}";
+        string line = $"{player.HighscoreName},{player.Score},{player.NumberOfPowersUps},{player.Difficulty}";
         
         try
         {
@@ -43,8 +43,10 @@ public class FileCSV : IFile
                 var values = line.Split(','); // Oskar (namn), 20 (Powerups), 2103 (Score), 1 (Difficulty) 
                 
                 players.Add(new Player(
-                    values[0],
-                    int.Parse(values[1])
+                    values[0],               
+                    int.Parse(values[1]),      
+                    int.Parse(values[2]),     
+                    int.Parse(values[3])    
                 ));
             }
 

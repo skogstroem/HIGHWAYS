@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
+using HIGHWAYS.FileManager;
 using HIGHWAYS.Interfaces;
 
 namespace HIGHWAYS
 {
-    public class AdvancedScoreBoard : IScoreBoard
+    public class AdvancedScoreBoard : ScoreBoard
     {
         private readonly IFile _storage;
 
@@ -13,12 +14,7 @@ namespace HIGHWAYS
             _storage = storage;
         }
 
-        public void Save(string playerName, int score, int gameMode)
-        {
-            _storage.Save(playerName, score, gameMode);
-        }
-
-        public void Draw()
+        public override void Draw()
         {
             var entries = _storage.Fetch();
 
@@ -31,28 +27,25 @@ namespace HIGHWAYS
             Console.WriteLine("ADVANCED SCOREBOARD");
 
             var grouped = entries
-                .GroupBy(e => e.GameMode)
+                .GroupBy(e => e.Difficulty)
                 .OrderBy(g => g.Key);
 
             foreach (var group in grouped)
             {
                 Console.WriteLine($"\nGamemode {group.Key}:");
 
-                var top = group
+                var players = group
                     .OrderByDescending(e => e.Score)
                     .Take(4)
                     .ToList();
 
                 // Pad till 5 rader med "tomt" om färre än 5 poster finns.
-                while (top.Count < 4)
-                {
-                    top.Add(("---", 0, group.Key));
-                }
 
                 int position = 1;
-                foreach (var entry in top)
+                foreach (var player in players)
+                    
                 {
-                    Console.WriteLine($"  {position}. {entry.Score}p {entry.PlayerName}");
+                    Console.WriteLine($"  {position}. {player.Score}p {player.Name}, {player.Difficulty}");
                     position++;
                 }
             }

@@ -43,10 +43,10 @@ public class FileTxt : IFile
                 var values = line.Split(','); // Name: Oskar (namn), Powerups: 20 (Powerups), Score: 2103 (Score), Difficulty: 1 (Difficulty) 
                 
                 players.Add(new Player(
-                    values[0],
-                    int.Parse(values[1])
-                    
-                    // Får parsa fler här 
+                    values[0],               
+                    int.Parse(values[2]),      
+                    int.Parse(values[1]),     
+                    int.Parse(values[3])    
                 ));
             }
         }
