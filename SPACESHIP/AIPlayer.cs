@@ -57,6 +57,12 @@ public class AIPlayer : IPlayer
     {
         Score += points;
     }
+    
+    public void DecreaseScore(int points)
+    {
+        Score -= points;
+    }
+    
     public void Update()
     {
         _updateCounter++;

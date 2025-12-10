@@ -16,7 +16,7 @@ public class Obstacle : GameObject
     {
         if (player.Streak <= 3 && player.Score - 10 > 0)
         {
-             player.Score =- 10;
+             player.DecreaseScore(10);
              player.Streak = 0;
         }
         else

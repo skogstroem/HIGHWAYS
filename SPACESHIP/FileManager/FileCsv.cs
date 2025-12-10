@@ -3,13 +3,12 @@ using HIGHWAYS.Players;
 
 namespace HIGHWAYS.FileManager;
 
-public class FileCSV : IFile
+public class FileCsv : IFile
 {
     public string Path { get; set; }
     
-    public FileCSV()
+    public FileCsv()
     {
-        Console.WriteLine("FileCSV constructor called");
         Path = "highway.csv";
         Exists();
     }
@@ -25,7 +24,7 @@ public class FileCSV : IFile
         }
         catch (Exception ex)
         {
-            Console.Write($"An error occured while writing to the CSV file {ex.Message}");
+            Console.Write($"An error occured while writing to the csv. file {ex.Message}");
         }
     }
     
@@ -40,7 +39,7 @@ public class FileCSV : IFile
 
             foreach (var line in lines)
             {
-                var values = line.Split(','); // Oskar (namn), 20 (Powerups), 2103 (Score), 1 (Difficulty) 
+                var values = line.Split(','); 
                 
                 players.Add(new Player(
                     values[0],               
@@ -53,7 +52,7 @@ public class FileCSV : IFile
         }
         catch (Exception ex)
         {
-            Console.Write($"An error occured while reading the CSV file {ex.Message}");
+            Console.Write($"An error occured while reading the csv. file {ex.Message}");
         }
         
         return players;

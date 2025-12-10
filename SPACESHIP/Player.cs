@@ -31,7 +31,7 @@ public class Player : IPlayer
         Score = 0;
         Streak = 0;
     }
-
+    
     public Player(string name, int score, int numberOfPowersUps, int difficulty)
     {
         Name = name;
@@ -61,6 +61,11 @@ public class Player : IPlayer
     public void IncreaseScore(int points)
     {
         Score += points;
+    }
+    
+    public void DecreaseScore(int points)
+    {
+        Score -= points;
     }
 
     public void Update()

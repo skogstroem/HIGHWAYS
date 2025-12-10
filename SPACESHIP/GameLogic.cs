@@ -65,8 +65,8 @@ public class GameLogic
         IFile file = choice switch
         {
             1 => new FileTxt(),
-            2 => new FileCSV(),
-            _ => new FileCSV()
+            2 => new FileCsv(),
+            _ => new FileCsv()
         };
         
 
@@ -96,22 +96,26 @@ public class GameLogic
         );
     }
     
-    public void ShowScoreboard(IFile file)
+    public ScoreBoard ShowScoreboard(IFile file)
     {
         Console.Clear();
-        var board = new NormalScoreBoard(file);
-        board.Draw();
+        ScoreBoard scoreboard = new NormalScoreBoard(file);
+        scoreboard.Draw();
         Console.WriteLine("\n Tryck på en knapp för att återgå till startmenyn.");
         Console.ReadKey();
+        
+        return scoreboard;
     }
     
-    public void ShowAdvancedScoreboard(IFile file)
+    public ScoreBoard ShowAdvancedScoreboard(IFile file)
     {
         Console.Clear();
-        var board = new AdvancedScoreBoard(file);
-        board.Draw();
+        ScoreBoard scoreboard = new AdvancedScoreBoard(file);
+        scoreboard.Draw();
         Console.WriteLine("\n Tryck på en knapp för att återgå till startmenyn.");
         Console.ReadKey();
+        
+        return scoreboard;
     }
 
     public void StartMessage()
@@ -167,7 +171,7 @@ public class GameLogic
         return selectedStrategy;
     }
 
-    public AIPlayer MenuSeletion(IFile file, IPlayer humanPlayer)
+    public AIPlayer MenuSeletion (IFile file, IPlayer humanPlayer, ScoreBoard scoreboard)
     {
         
         while (true)
@@ -192,12 +196,12 @@ public class GameLogic
                         EndProgram();
                         break;
                     case 4:
-                        ShowScoreboard(file);
+                        scoreboard = ShowScoreboard(file);
                         Console.Clear();
                         ShowStartMenu();
                         break;
                     case 5:
-                        ShowAdvancedScoreboard(file);
+                        scoreboard = ShowAdvancedScoreboard(file);
                         Console.Clear();
                         ShowStartMenu();
                         break;
@@ -212,37 +216,6 @@ public class GameLogic
                               + "\n 4. Visa Scoreboard"
                               + "\n 5. Visa Advanced Scoreboard");
             }
-        }
-    }
-
-    // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
-    public void SaveHighScore()
-    {
-        try
-        {
-            bool validChoice = false;
-            Console.Write("Skriv in ditt namn: ");
-            
-            while (!validChoice)
-            {
-                string username = Console.ReadLine();
-               
-                if (username.Trim().Length > 20 || username.Trim().Length < 1)
-                {
-                    Console.Write("\n Ogiltigt användarnamn! Måste vara mellan 1 och 20 tecken: ");
-                    validChoice = true;
-                }
-                else
-                {
-                    // Denna tar in en scoreboard i parametern, och scoreboard kör IScoreboard.file.Save() som anropar rätt IFile.Save()
-                    validChoice = true;
-                }
-                    
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Hoppsan! Ett fel uppstod när du skulle sparas: " + e.Message);
         }
     }
 }

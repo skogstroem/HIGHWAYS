@@ -22,5 +22,8 @@ public interface IPlayer
     void IncreaseScore(int points);
     void Update();
     void Render(int yPosition);
+    
+    void DecreaseScore(int points);
+    
 }
 

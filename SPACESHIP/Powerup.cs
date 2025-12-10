@@ -18,7 +18,7 @@ public class Powerup : GameObject
         
         if (player.Streak >= 3)
         {
-            player.Score =+ 10000;
+            player.IncreaseScore(1000);
             player.Streak++;
         }
         else

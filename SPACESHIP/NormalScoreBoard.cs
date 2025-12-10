@@ -7,16 +7,15 @@ namespace HIGHWAYS
 {
     internal class NormalScoreBoard : ScoreBoard
     {
-        private readonly IFile _storage;
 
         public NormalScoreBoard (IFile storage)
         {
-            _storage = storage;
+            _file = storage;
         }
         
         public override void Draw()
         {
-            var entries = _storage.Fetch();
+            var entries = _file.Fetch();
 
             if (entries.Count == 0)
             {
@@ -28,7 +27,7 @@ namespace HIGHWAYS
 
             var players = entries
                 .OrderByDescending(e => e.Score)
-                .Take(10)
+         
                 .ToList();
 
             int position = 1;

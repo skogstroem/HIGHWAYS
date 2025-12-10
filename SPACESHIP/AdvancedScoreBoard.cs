@@ -7,16 +7,15 @@ namespace HIGHWAYS
 {
     public class AdvancedScoreBoard : ScoreBoard
     {
-        private readonly IFile _storage;
 
         public AdvancedScoreBoard(IFile storage)
         {
-            _storage = storage;
+            _file = storage;
         }
 
         public override void Draw()
         {
-            var entries = _storage.Fetch();
+            var entries = _file.Fetch();
 
             if (entries.Count == 0)
             {
@@ -32,7 +31,29 @@ namespace HIGHWAYS
 
             foreach (var group in grouped)
             {
-                Console.WriteLine($"\nGamemode {group.Key}:");
+
+                string gameMode;
+                
+                switch (group.Key)
+                {
+                    case 0:
+                        gameMode = "Solo";
+                        break;
+                    case 1:
+                        gameMode = "ZigZag";
+                        break;
+                    case 2:
+                        gameMode = "Straight Strategy";
+                        break;
+                    case 3:
+                        gameMode = "Random Strategy";
+                        break;
+                    default:
+                        gameMode = "Unknown";
+                        break;
+                }
+                
+                Console.WriteLine($"\nGamemode {gameMode}:");
 
                 var players = group
                     .OrderByDescending(e => e.Score)
@@ -45,7 +66,7 @@ namespace HIGHWAYS
                 foreach (var player in players)
                     
                 {
-                    Console.WriteLine($"  {position}. {player.Score}p {player.Name}, {player.Difficulty}");
+                    Console.WriteLine($"  {position}. {player.Score} p {player.Name}");
                     position++;
                 }
             }

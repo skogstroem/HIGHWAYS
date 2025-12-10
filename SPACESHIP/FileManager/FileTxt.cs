@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using HIGHWAYS.Interfaces;
 using HIGHWAYS.Players;
 
@@ -18,14 +19,11 @@ public class FileTxt : IFile
         try
         {
             using var writer = new StreamWriter(Path, true);
-            
-            writer.WriteLine($"Player Name:  {player.Name}");
-            writer.WriteLine($"Player Score: {player.Score}");
-            writer.WriteLine();
+            writer.WriteLine($"Name:  {player.HighscoreName} Score: {player.Score} Power-Ups: {player.NumberOfPowersUps} Difficulty: {player.Difficulty}");
         }
         catch (Exception ex)
         {
-            Console.Write($"An error occured while writing to the CSV file {ex.Message}");
+            Console.Write($"An error occured while writing to the txt. file {ex.Message}");
         }
     }
 
@@ -34,25 +32,35 @@ public class FileTxt : IFile
         
         var players = new List<IPlayer>();
         
+        string pattern =
+            @"Name:\s*([\p{L} '-]+)\s*" +
+            @"Score:\s*([-−]?\d+)\s*" +
+            @"Power-Ups:\s*([-−]?\d+)\s*" +
+            @"Difficulty:\s*([-−]?\d+)";       
+        
         try
         {
             var lines = File.ReadAllLines(Path);
 
             foreach (var line in lines)
             {
-                var values = line.Split(','); // Name: Oskar (namn), Powerups: 20 (Powerups), Score: 2103 (Score), Difficulty: 1 (Difficulty) 
                 
+                var match = Regex.Match(line, pattern);
+
+                if (!match.Success)
+                    continue;
+
                 players.Add(new Player(
-                    values[0],               
-                    int.Parse(values[2]),      
-                    int.Parse(values[1]),     
-                    int.Parse(values[3])    
+                    match.Groups[1].Value,               
+                    int.Parse(match.Groups[2].Value),    
+                    int.Parse(match.Groups[3].Value),     
+                    int.Parse(match.Groups[4].Value)       
                 ));
             }
         }
         catch (Exception ex)
         {
-            Console.Write($"An error occured while reading the CSV file {ex.Message}");
+            Console.Write($"An error occured while reading the txt. file {ex.Message}");
         }
         
         return players;
