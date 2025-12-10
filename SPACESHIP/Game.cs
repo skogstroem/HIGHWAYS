@@ -27,12 +27,6 @@ public class Game
     private readonly IGameObjectFactory _powerupFactory;
     
     private ScoreBoard _scoreboard;
-    
-    // public Scoreboard scoreboard 
-    
-    // scoreboard = normal
-    
-    // scoreboard = advanced 
 
     private readonly Random _random;
 

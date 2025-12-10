@@ -27,7 +27,6 @@ namespace HIGHWAYS
 
             var players = entries
                 .OrderByDescending(e => e.Score)
-         
                 .ToList();
 
             int position = 1;

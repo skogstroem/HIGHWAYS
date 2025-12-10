@@ -17,14 +17,12 @@ using HIGHWAYS.FileManager;
 //    filen bytas vid runtime utan att påverka scoreboard klasserna. 
 //    
 //    Scoreboards subtyper skiljer i beteenden och inte bara data eftersom de har olika impletnationer av Draw(), vilket betyder att de visualiserar data på olika sätt 
-//    IFiles subtyper skiljer sig i beteenden och inte bara data eftersom hur man sparar samt hämtar från olika typer av filer varierar, alla subtyper en olika impletationer av 
+//    IFiles subtyper skiljer sig i beteenden och inte bara data eftersom hur man sparar samt hämtar från olika typer av filer varierar, alla subtyper har olika impletationer av 
 //    Save() och Fetch(). 
 //
 // 3: Motiveringen till att vi använder Bridge Pattern är för att möjliggöra hög flexibilitet och låg koppling (decoupling) mellan presentationen av resultat (Scoreboard) och lagring 
 //    av data (IFile). Utan detta mönstret hade vi behövt hårdkoda ett visst filformat, exemplevis CSV, vilket hade gjort systemet svårare att underhålla, utöka och exportera data. Med IFile kan vi exempelvis 
-//   hämta information från en databas om vi väljer att lägga till det i framtiden. 
-
-
+//   hämta information från en databas om vi väljer att lägga till det i framtiden. Scoreboardsen ska inte behöva bry sig över hur data lagras, bara att den kan få datan som ska presenteras. 
 
 namespace HIGHWAYS.Interfaces
 {

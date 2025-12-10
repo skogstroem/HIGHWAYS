@@ -36,6 +36,9 @@ public class FileCsv : IFile
         try
         {
             var lines = File.ReadAllLines(Path);
+            
+            if (lines.Length == 0)
+                return players;
 
             foreach (var line in lines)
             {
